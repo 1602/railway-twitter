@@ -2,7 +2,7 @@ Installation
 ------------
 
     mkdir node_modules
-    git clone https://github.com/1602/raiway-twitter.git node_modules/twitter
+    git clone https://github.com/1602/railway-twitter.git node_modules/twitter
     echo "require('twitter');" >> npmfile.js
     touch config/twitter.yml
 
