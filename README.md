@@ -19,7 +19,7 @@ Configure `config/twitter.yml` with your twitter app credentials:
 
 Callback path: `/twitter_callback`
 
-Using
+Usage
 -----
 
 In application add link to twitter connect `/twitter_connect`:
