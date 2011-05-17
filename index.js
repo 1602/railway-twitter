@@ -87,7 +87,10 @@ function initApp (settings) {
                     req.session.twitter.oauthAccessToken = oauthAccessToken;
                     req.session.twitter.oauthAccessTokenSecret = oauthAccessTokenSecret;
                     app.emit(TWITTER_CONNECT_EVENT, req.session.twitter, req, res);
-                    redirectBack(req, res);
+                    if (settings.autoRedirect) {
+                        console.log('autoredirect');
+                        redirectBack(req, res);
+                    }
                 }
             }
         }
