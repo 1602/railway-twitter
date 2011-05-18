@@ -39,7 +39,7 @@ as event emitter, so you can:
        // save user id in req.session
     });
 
-It is fine put code like this into user model (`app/models/user.js`):
+Just put code like this into the environment settings (`config/environment.js`):
 
     app.on('twitterConnect', function (twitter, req) {
         User.findOne({twitterId: twitter.id}, function (err, user) {
@@ -50,3 +50,5 @@ It is fine put code like this into user model (`app/models/user.js`):
             }
         });
     });
+
+Ideally, in application should be specific place for stuff like this (maybe app/observers).
