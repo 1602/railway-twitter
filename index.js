@@ -7,8 +7,9 @@ var _host;
 var _apiHost = 'http://twitter.com';
 var _apiSecureHost = 'https://twitter.com';
 var _callbackPath = '/twitter_callback';
+var _connectPath = '/twitter_connect';
 
-var TWITTER_CONNECT_EVENT = 'twitterConnect';
+
 
 function consumer () {
     return new oauth.OAuth(
@@ -24,89 +25,31 @@ exports.init = function initTwitterConnect () {
         console.log('Error:', e.message);
     }
     if (settings) {
-        initApp(settings);
+        _twitterConsumerKey = settings.key;
+        _twitterConsumerSecret = settings.secret;
+        _host = settings.url;
+
+        if (settings.callbackPath) {
+            _callbackPath = callbackPath;
+        }
+
+        if (settings.connectPath) {
+            _connectPath = connectPath;
+        }
     }
+    railway.controller.addBasePath(__dirname + '/app/controllers', '', {
+        TWITTER_CONNECT_EVENT: 'twitterConnect',
+        _apiSecureHost: _apiSecureHost,
+        _apiHost: _apiHost,
+        consumer: consumer
+    });
+    railway.routeMapper.get(_callbackPath, 'twitter_connect#callback');
+    railway.routeMapper.get(_connectPath,  'twitter_connect#connect');
 };
 
-function initApp (settings) {
-    _twitterConsumerKey = settings.key;
-    _twitterConsumerSecret = settings.secret;
-    _host = settings.url;
+exports.consumer = consumer;
 
-    app.get(settings.connectPath || '/twitter_connect', function (req, res) {
-        console.log(req.headers);
-        req.session.beforeTwitterAuth = req.headers.referer;
-        delete req.session.twitter;
-        consumer().getOAuthRequestToken(gotToken);
-
-        function gotToken (error, oauthToken, oauthTokenSecret, results) {
-            if (error) {
-                redirectBack(req, res, {error: "Error getting OAuth request token : " + sys.inspect(error)});
-            } else {
-                req.session.twitter = {
-                    oauthRequestToken: oauthToken,
-                    oauthRequestTokenSecret: oauthTokenSecret
-                };
-                res.redirect(_apiSecureHost + "/oauth/authorize?oauth_token=" + oauthToken);
-            }
-        }
-    });
-
-    if (settings.callbackPath) {
-        _callbackPath = callbackPath;
-    }
-
-    app.get(settings.callbackPath || '/twitter_callback', function (req, res) {
-        consumer().getOAuthAccessToken(
-            req.session.twitter.oauthRequestToken,
-            req.session.twitter.oauthRequestTokenSecret,
-            req.query.oauth_verifier,
-            twitterCallback
-        );
-
-        function twitterCallback (error, oauthAccessToken, oauthAccessTokenSecret, results) {
-            if (error) {
-                res.send("Error getting OAuth access token : " + sys.inspect(error), 500);
-                return;
-            }
-            consumer().get(
-                _apiHost + "/account/verify_credentials.json",
-                oauthAccessToken,
-                oauthAccessTokenSecret,
-                gotData);
-
-            function gotData (error, data, response) {
-                if (error) {
-                    redirectBack(req, res, {error: "Error getting twitter screen name : " + sys.inspect(error)});
-                    console.log('gotData:', error);
-                } else {
-                    if (typeof data === 'string') {
-                        data = JSON.parse(data);
-                    }
-                    req.session.twitter = data;
-                    req.session.twitter.oauthAccessToken = oauthAccessToken;
-                    req.session.twitter.oauthAccessTokenSecret = oauthAccessTokenSecret;
-                    app.emit(TWITTER_CONNECT_EVENT, req.session.twitter, req, res);
-                    if (settings.autoRedirect) {
-                        console.log('autoredirect');
-                        redirectBack(req, res);
-                    }
-                }
-            }
-        }
-    });
+function routes (map) {
 }
 
-function redirectBack (req, res, flash) {
-    var location = req.session && req.session.beforeTwitterAuth || '/';
-    delete req.session.beforeTwitterAuth;
-    if (flash) {
-        if (flash.error) {
-            req.flash('error', flash.error);
-        } else if (flash.info) {
-            req.flash('info', flash.info);
-        }
-    }
-    res.redirect(location);
-}
 
