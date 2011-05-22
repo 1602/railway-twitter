@@ -20,3 +20,4 @@ if (path.existsSync(app.root + '/config') && !path.existsSync(app.root + '/confi
     fs.writeFileSync(app.root + '/config/twitter.yml', config);
 }
 
+process.exit(0);
