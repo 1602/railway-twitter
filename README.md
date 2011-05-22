@@ -1,25 +1,7 @@
 Installation
 ------------
 
-    mkdir node_modules
-    git clone https://github.com/1602/railway-twitter.git node_modules/twitter
-    echo "require('twitter');" >> npmfile.js
-    touch config/twitter.yml
-
-Configure `config/twitter.yml` with your twitter app credentials:
-
-    development:
-      url: "http://1.lvh.me"
-      key: key
-      secret: secret
-    production:
-      url: "http://example.com"
-      key: key
-      secret: secret
-      connectPath: /twitter_connect
-      callbackPath: /twitter_callback
-
-Callback path: `/twitter_callback`
+    railway install https://github.com/1602/railway-twitter.git
 
 Usage
 -----
@@ -34,14 +16,15 @@ Callback path can be configured too, see example below.
 When app will connected with twitter, global `app` object will receive message `twitterConnect`
 as event emitter, so you can:
 
-    app.on('twitterConnect', function (user, req) {
+    app.on('twitterConnect', function (user, req, res) {
        // find or create account for user
        // save user id in req.session
+       // redirect user to a proper location
     });
 
 Just put code like this into the environment settings (`config/environment.js`):
 
-    app.on('twitterConnect', function (twitter, req) {
+    app.on('twitterConnect', function (twitter, req, res) {
         User.findOne({twitterId: twitter.id}, function (err, user) {
             if (user) {
                 req.session.user_id = user.id;
@@ -49,6 +32,7 @@ Just put code like this into the environment settings (`config/environment.js`):
                 User.register({twitter: twitter});
             }
         });
+        res.redirect('/');
     });
 
 Ideally, in application should be specific place for stuff like this (maybe app/observers).

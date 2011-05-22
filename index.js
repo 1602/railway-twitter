@@ -9,8 +9,6 @@ var _apiSecureHost = 'https://twitter.com';
 var _callbackPath = '/twitter_callback';
 var _connectPath = '/twitter_connect';
 
-
-
 function consumer () {
     return new oauth.OAuth(
         _apiHost + "/oauth/request_token", _apiSecureHost + "/oauth/access_token",
@@ -48,8 +46,3 @@ exports.init = function initTwitterConnect () {
 };
 
 exports.consumer = consumer;
-
-function routes (map) {
-}
-
-
