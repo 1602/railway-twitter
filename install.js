@@ -3,14 +3,14 @@ var config = [
     '  url: "http://1.lvh.me"',
     '  key: key',
     '  secret: secret',
-    '  connectPath: /twitter_connect',
-    '  callbackPath: /twitter_callback',
+    '  connectPath: "/twitter_connect"',
+    '  callbackPath: "/twitter_callback"',
     'production:',
     '  url: "http://example.com"',
     '  key: key',
     '  secret: secret',
-    '  connectPath: /twitter_connect',
-    '  callbackPath: /twitter_callback'
+    '  connectPath: "/twitter_connect"',
+    '  callbackPath: "/twitter_callback"'
 ].join('\n');
 
 var fs = require('fs');

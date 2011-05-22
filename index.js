@@ -28,11 +28,11 @@ exports.init = function initTwitterConnect () {
         _host = settings.url;
 
         if (settings.callbackPath) {
-            _callbackPath = callbackPath;
+            _callbackPath = settings.callbackPath;
         }
 
         if (settings.connectPath) {
-            _connectPath = connectPath;
+            _connectPath = settings.connectPath;
         }
     }
     railway.controller.addBasePath(__dirname + '/app/controllers', '', {
