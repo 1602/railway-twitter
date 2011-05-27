@@ -50,7 +50,7 @@ action('callback', function () {
                 req.session.twitter = data;
                 req.session.twitter.oauthAccessToken = oauthAccessToken;
                 req.session.twitter.oauthAccessTokenSecret = oauthAccessTokenSecret;
-                app.emit(TWITTER_CONNECT_EVENT, req.session.twitter, req, response);
+                app.emit(TWITTER_CONNECT_EVENT, req.session.twitter, req, res);
             }
         }
     }
