@@ -10,7 +10,7 @@ var config = [
     '  key: key',
     '  secret: secret',
     '  connectPath: "/twitter_connect"',
-    '  callbackPath: "/twitter_callback"'
+    '  callbackPath: "/twitter_callback"\n'
 ].join('\n');
 
 var observer = [
@@ -18,7 +18,7 @@ var observer = [
     '    var location = req.session && req.session.beforeTwitterAuth || \'/\';',
     '    delete req.session.beforeTwitterAuth;',
     '    res.redirect(location);',
-    '});'
+    '});\n'
 ].join('\n');
 
 var fs = require('fs');
