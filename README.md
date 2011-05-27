@@ -22,7 +22,7 @@ as event emitter, so you can:
        // redirect user to a proper location
     });
 
-Just put code like this into the environment settings (`config/environment.js`):
+Example of `app/observers/twitter_observer`:
 
     app.on('twitterConnect', function (twitter, req, res) {
         User.findOne({twitterId: twitter.id}, function (err, user) {
@@ -34,5 +34,3 @@ Just put code like this into the environment settings (`config/environment.js`):
         });
         res.redirect('/');
     });
-
-Ideally, in application should be specific place for stuff like this (maybe app/observers).
