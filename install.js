@@ -29,9 +29,10 @@ if (path.existsSync(app.root + '/config') && !path.existsSync(app.root + '/confi
     console.log('new file ./config/twitter.yml');
 }
 
-if (path.existsSync(app.root + '/observers') && !path.existsSync(app.root + '/observers/twitter_observer.js')) {
-    fs.writeFileSync(app.root + '/observers/twitter_observer.js', observer);
-    console.log('new file ./observers/twitter_observer.js');
+if (path.existsSync(app.root + '/app/observers') && !path.existsSync(app.root + '/app/observers/twitter_observer.js')) {
+    fs.writeFileSync(app.root + '/app/observers/twitter_observer.js', observer);
+    console.log('new file ./app/observers/twitter_observer.js');
 }
 
 process.exit(0);
+
