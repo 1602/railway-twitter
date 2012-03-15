@@ -15,9 +15,7 @@
     "oauth": ">=0.9.0",
     "yaml": ">=0.1.2"
   },
-  "bundledDependencies": {
-    "oauth": ">=0.9.0"
-  },
+  "bundledDependencies": [ "oauth" ],
   "engines": {
     "node": "*"
   }
