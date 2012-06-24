@@ -1,4 +1,4 @@
-var sys = require('sys');
+var util = require('util');
 
 action('connect', function () {
     req.session.beforeTwitterAuth = req.headers.referer;
@@ -7,7 +7,7 @@ action('connect', function () {
 
     function gotToken (error, oauthToken, oauthTokenSecret, results) {
         if (error) {
-            flash(error, "Error getting OAuth request token : " + sys.inspect(error));
+            flash(error, "Error getting OAuth request token : " + util.inspect(error));
             redirectBack();
         } else {
             req.session.twitter = {
@@ -29,7 +29,7 @@ action('callback', function () {
 
     function twitterCallback (error, oauthAccessToken, oauthAccessTokenSecret, results) {
         if (error) {
-            send("Error getting OAuth access token : " + sys.inspect(error), 500);
+            send("Error getting OAuth access token : " + util.inspect(error), 500);
             return;
         }
         consumer().get(
@@ -40,7 +40,7 @@ action('callback', function () {
 
         function gotData (error, data, response) {
             if (error) {
-                flash(error, "Error getting twitter screen name : " + sys.inspect(error));
+                flash(error, "Error getting twitter screen name : " + util.inspect(error));
                 redirectBack();
                 console.log('gotData:', error);
             } else {
