@@ -1,5 +1,5 @@
 var oauth = require('oauth');
-var sys = require('sys');
+var util = require('util');
 
 var _twitterConsumerKey;
 var _twitterConsumerSecret;
