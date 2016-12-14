@@ -24,12 +24,12 @@ var observer = [
 var fs = require('fs');
 var path = require('path');
 
-if (path.existsSync(app.root + '/config') && !path.existsSync(app.root + '/config/twitter.yml')) {
+if (fs.existsSync(app.root + '/config') && !fs.existsSync(app.root + '/config/twitter.yml')) {
     fs.writeFileSync(app.root + '/config/twitter.yml', config);
     console.log('new file ./config/twitter.yml');
 }
 
-if (path.existsSync(app.root + '/app/observers') && !path.existsSync(app.root + '/app/observers/twitter_observer.js')) {
+if (fs.existsSync(app.root + '/app/observers') && !fs.existsSync(app.root + '/app/observers/twitter_observer.js')) {
     fs.writeFileSync(app.root + '/app/observers/twitter_observer.js', observer);
     console.log('new file ./app/observers/twitter_observer.js');
 }
